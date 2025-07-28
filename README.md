@@ -24,12 +24,13 @@ To run the .jar file:
 **Windows:**
 java -cp "jdbcBonus.jar;lib/mysql-connector-j-9.4.0.jar" Main
 
-text
+
 
 **Linux/Mac:**
 java -cp "jdbcBonus.jar:lib/mysql-connector-j-9.4.0.jar" Main
 
-text
+
+
 
 ---
 

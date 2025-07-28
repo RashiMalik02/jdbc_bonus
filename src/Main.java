@@ -1,15 +1,30 @@
 import DataAccessObject.UserDao;
-import MainEntities.Job;
 import MainEntities.User;
 import db.DatabaseConnection;
 
 import java.sql.*;
+import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        System.out.println("Database Connection Setup");
+        System.out.print("Please enter your database URL (e.g., jdbc:mysql://localhost:3306/schemaDb): ");
+        String dbUrl = sc.nextLine();
+
+        System.out.print("Please enter your database username: ");
+        String dbUser = sc.nextLine();
+
+        System.out.print("Please enter your database password: ");
+        String dbPassword = sc.nextLine();
+
+        DatabaseConnection dbConnection = new DatabaseConnection(dbUrl, dbUser, dbPassword);
+
         //inserting user using jdbc
+        //CRUD of main entities using jdbc
         User user = new User(78, "Abhinav", "abhinavsuri@email.com", "MALE", "+1-525-1501", new Date(1899, 8, 2), "hashed_password_78");
-        UserDao userDao = new UserDao();
+        UserDao userDao = new UserDao(dbConnection);
         userDao.insertUser(user);
 
 
@@ -18,7 +33,7 @@ public class Main {
         //List all candidates in the interview stage for a given job.
         try {
 
-            Connection connection = DatabaseConnection.getConnection();
+            Connection connection = dbConnection.getConnection();
             String query1 = "select A.candidate_id \n" +
                     "from applications as A\n" +
                     "join application_stage as B\n" +
@@ -45,7 +60,7 @@ public class Main {
         //frequent query:2
         //Retrieve interview schedules for an interviewer.
         try {
-            Connection connection = DatabaseConnection.getConnection();
+            Connection connection = dbConnection.getConnection();
             String query2 = "select * from interviews\n" +
                     "where interviewer_id = ? and status = 'scheduled' order by scheduled_at;";
             PreparedStatement preparedStatement = connection.prepareStatement(query2);
@@ -75,7 +90,7 @@ public class Main {
         //frequent query:3
         //Find jobs with more than 50 applications.
         try {
-            Connection connection = DatabaseConnection.getConnection();
+            Connection connection = dbConnection.getConnection();
             String query3 = "select * from job where total_applications > 50;";
             PreparedStatement preparedStatement = connection.prepareStatement(query3);
 
@@ -102,7 +117,7 @@ public class Main {
         //frequent query:4
         //Show offer acceptance rate per department.
         try {
-            Connection connection = DatabaseConnection.getConnection();
+            Connection connection = dbConnection.getConnection();
             String query4 = "select company_dept_id , round(((total_accepted_offers / total_offers) * 100) , 2) as acceptance_rate\n" +
                     "from company_department;";
             PreparedStatement preparedStatement = connection.prepareStatement(query4);
@@ -129,7 +144,7 @@ public class Main {
         //frequent query:5
         //Show status of all applications of a candidate.
         try {
-            Connection connection = DatabaseConnection.getConnection();
+            Connection connection = dbConnection.getConnection();
             String query5 = "select A.application_id , J.job_id, J.title as Job_name , B.title as application_status from applications as A\n" +
                             "join application_stage as B on (A.candidate_id = ?) and (A.current_stage_id = B.stage_id)\n" +
                             "join job as J on A.job_id = J.job_id;";

@@ -8,9 +8,17 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class CandidateDAO {
+
+    private DatabaseConnection dbConnection;
+
+    // Constructor that takes DatabaseConnection instance
+    public CandidateDAO(DatabaseConnection dbConnection) {
+        this.dbConnection = dbConnection;
+    }
+
     public void insertCandidate(Candidate c) {
         String sql = "INSERT INTO candidate(user_id, candidate_id, resume_link_path, experience, education, skill) VALUES (?, ?, ?, ?, ?, ?)";
-        try (Connection conn = DatabaseConnection.getConnection();
+        try (Connection conn = dbConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, c.getUserId());
             ps.setInt(2, c.getCandidateId());

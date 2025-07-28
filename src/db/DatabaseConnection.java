@@ -5,14 +5,31 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DatabaseConnection {
-    private static final String URL = "jdbc:mysql://127.0.0.1:3306/schemadb";
-    private static final String USER = "root";
-    private static final String PASSWORD = "RadheRadhe.02";
+    private String url;
+    private String user;
+    private String password;
 
-    public static Connection getConnection() {
+    public DatabaseConnection(String url , String user , String password ) {
+        this.url = url;
+        this.user = user;
+        this.password = password;
+    }
+
+    public Connection getConnection() {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
+            Connection connection = DriverManager.getConnection(this.url, this.user, this.password);
+            return connection;
+        } catch (ClassNotFoundException | SQLException e) {
+            System.out.println("Database connection error: " + e.getMessage());
+            return null;
+        }
+    }
+
+    public static Connection getConnection(String url, String user, String password) {
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection connection = DriverManager.getConnection(url, user, password);
 
             return connection;
         } catch (ClassNotFoundException | SQLException e) {

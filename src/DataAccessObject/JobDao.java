@@ -8,9 +8,15 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class JobDao {
+    private DatabaseConnection dbConnection;
+
+    // Constructor that takes DatabaseConnection instance
+    public JobDao(DatabaseConnection dbConnection) {
+        this.dbConnection = dbConnection;
+    }
     public void insert(Job job) {
         String sql = "INSERT INTO job(job_id, title, company_dept_id, description, total_applications, posted_by, status) VALUES (?, ?, ?, ?, ?, ?, ?)";
-        try (Connection conn = DatabaseConnection.getConnection();
+        try (Connection conn = dbConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, job.getJobId());
             ps.setString(2, job.getTitle());

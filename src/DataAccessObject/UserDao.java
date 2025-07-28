@@ -8,11 +8,17 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class UserDao {
+    private DatabaseConnection dbConnection;
+
+    // Constructor that takes DatabaseConnection instance
+    public UserDao(DatabaseConnection dbConnection) {
+        this.dbConnection = dbConnection;
+    }
     private static final String query = "INSERT INTO user(user_id, name, email, gender, phoneNo, dateOfBirth, password) VALUES(?, ?, ?, ?, ?, ?, ?)";
 
-    public static void insertUser(User user) {
+    public void insertUser(User user) {
         try {
-            Connection connection = DatabaseConnection.getConnection();
+            Connection connection = dbConnection.getConnection();
             PreparedStatement ps = connection.prepareStatement(query);
 
             ps.setInt(1, user.getUserId());

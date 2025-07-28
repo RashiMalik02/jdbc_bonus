@@ -201,7 +201,7 @@ INSERT INTO company_department (company_dept_id, dept_id, company_id, descriptio
 -- Insert users (candidates, interviewers, recruiters)
 INSERT INTO user (user_id, name, email, gender, phoneNo, dateOfBirth, password) VALUES
 -- Candidates (1-30)
--- (1, 'Alice Johnson', 'alice.johnson@email.com', 'FEMALE', '+1-555-1001', '1995-03-15', 'hashed_password_1'),
+(1, 'Alice Johnson', 'alice.johnson@email.com', 'FEMALE', '+1-555-1001', '1995-03-15', 'hashed_password_1'),
 (2, 'Bob Smith', 'bob.smith@email.com', 'MALE', '+1-555-1002', '1993-07-22', 'hashed_password_2'),
 (3, 'Carol Davis', 'carol.davis@email.com', 'FEMALE', '+1-555-1003', '1996-11-08', 'hashed_password_3'),
 (4, 'David Wilson', 'david.wilson@email.com', 'MALE', '+1-555-1004', '1994-01-30', 'hashed_password_4'),
